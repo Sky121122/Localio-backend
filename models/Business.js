@@ -92,6 +92,10 @@ const businessSchema = new mongoose.Schema({
         type: String,
         default: "Active"
     },
+    views: {
+    type: Number,
+    default: 0
+},
 },
 {
     timestamps: true

@@ -208,3 +208,40 @@ export const searchBusinesses = async (req, res) => {
     }
 
 };
+
+export const increaseViews = async (req, res) => {
+
+       console.log("View API Hit");
+    console.log(req.params.id);
+
+    try {
+
+        const business = await Business.findByIdAndUpdate(
+
+            req.params.id,
+
+            {
+                $inc: { views: 1 }
+            },
+
+            {
+                new: true
+            }
+
+        );
+
+        res.status(200).json({
+            success: true,
+            business
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
