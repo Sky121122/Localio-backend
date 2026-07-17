@@ -245,3 +245,35 @@ export const increaseViews = async (req, res) => {
     }
 
 };
+
+export const getCities = async (req, res) => {
+
+    try {
+
+        const cities = await Business.distinct("city");
+
+        cities.sort();
+
+        res.status(200).json({
+
+            success: true,
+
+            cities,
+
+        });
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+
+            success: false,
+
+            message: error.message,
+
+        });
+
+    }
+
+};
