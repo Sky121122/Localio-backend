@@ -59,7 +59,6 @@ export const getUserProfile = async (req, res) => {
     }
 };
 
-
 // Update User Profile
 export const updateUserProfile = async (req, res) => {
 
@@ -94,6 +93,84 @@ export const updateUserProfile = async (req, res) => {
         res.status(500).json({
             success: false,
             message: error.message,
+        });
+
+    }
+
+};
+
+export const updateSelectedCity = async (req, res) => {
+
+    try {
+
+        const { firebaseUID, city } = req.body;
+
+        const user = await User.findOneAndUpdate(
+
+            { firebaseUID },
+
+            { selectedCity: city },
+
+            { new: true }
+
+        );
+
+        if (!user) {
+
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "City updated successfully",
+            user,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
+
+
+export const getUserByFirebaseUID = async (req, res) => {
+
+    try {
+
+        const user = await User.findOne({
+            firebaseUID: req.params.firebaseUID
+        });
+
+        if (!user) {
+
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+
+        }
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
         });
 
     }

@@ -36,7 +36,11 @@ const userSchema = new mongoose.Schema({
     location:{
         type:String,
         default:""
-    }
+    },
+    selectedCity: {
+    type: String,
+    default: "",
+},
 },
     {
         timestamps: true,
