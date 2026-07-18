@@ -92,6 +92,10 @@ const businessSchema = new mongoose.Schema({
         type: String,
         default: "Active"
     },
+    isFeatured: {
+    type: Boolean,
+    default: false,
+},
     views: {
     type: Number,
     default: 0

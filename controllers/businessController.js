@@ -277,3 +277,89 @@ export const getCities = async (req, res) => {
     }
 
 };
+
+export const getFeaturedBusinesses = async (req, res) => {
+ console.log("FEATURED ROUTE HIT");
+    try {
+
+        const businesses = await Business.find({
+            isFeatured: true
+        })
+        .limit(10);
+
+        res.status(200).json({
+            success: true,
+            businesses
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
+export const getNewBusinesses = async (req, res) => {
+
+    try {
+
+        const businesses = await Business.find()
+            .sort({ createdAt: -1 })
+            .limit(10);
+
+        res.status(200).json({
+            success: true,
+            businesses
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
+export const getBusinessesByCity = async (req, res) => {
+
+    try {
+
+        const businesses = await Business.find({
+
+            city: {
+                $regex: req.params.city,
+                $options: "i",
+            },
+
+        });
+
+        res.status(200).json({
+
+            success: true,
+
+            businesses,
+
+        });
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+
+            success: false,
+
+            message: error.message,
+
+        });
+
+    }
+
+};
