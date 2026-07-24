@@ -106,13 +106,7 @@ import Support from "../models/Support.js";
 
 export const sendContactMail = async (req, res) => {
 
-    console.log("=========== CONTACT API HIT ===========");
-    console.log("Body:", req.body);
-
     try {
-
-        console.log("Saving support...");
-
         const {
             userId,
             name,
@@ -130,10 +124,6 @@ export const sendContactMail = async (req, res) => {
             subject,
             message,
         });
-
-        console.log("Support saved.");
-
-        console.log("Sending email...");
 
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
@@ -153,9 +143,6 @@ export const sendContactMail = async (req, res) => {
 
         console.log("ERROR OCCURRED");
         console.log(error);
-        console.log(error.code);
-        console.log(error.response);
-
         res.status(500).json({
             success: false,
             message: error.message,
