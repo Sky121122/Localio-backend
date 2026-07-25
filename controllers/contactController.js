@@ -124,7 +124,8 @@ export const sendContactMail = async (req, res) => {
             subject,
             message,
         });
-
+console.log("EMAIL_USER =", process.env.EMAIL_USER);
+console.log("EMAIL_PASS =", process.env.EMAIL_PASS ? "Exists" : "Missing");
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: process.env.EMAIL_USER,
