@@ -176,3 +176,128 @@ export const getUserByFirebaseUID = async (req, res) => {
     }
 
 };
+
+export const toggleFavorite = async (req, res) => {
+    try {
+
+        const { userId } = req.params;
+        const { businessId } = req.body;
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        const index = user.favorites.findIndex(
+            (id) => id.toString() === businessId
+        );
+
+        let isFavorite = false;
+
+        if (index > -1) {
+
+            // Remove Favorite
+            user.favorites.splice(index, 1);
+
+            isFavorite = false;
+
+        } else {
+
+            // Add Favorite
+            user.favorites.push(businessId);
+
+            isFavorite = true;
+
+        }
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            isFavorite,
+            favorites: user.favorites,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+};
+
+export const getFavoriteBusinesses = async (req, res) => {
+
+    try {
+
+        const { userId } = req.params;
+
+        const user = await User.findById(userId)
+            .populate("favorites");
+
+        if (!user) {
+
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+
+        }
+
+        res.status(200).json({
+            success: true,
+            favorites: user.favorites,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
+
+export const checkFavorite = async (req, res) => {
+
+    try {
+
+        const { userId, businessId } = req.params;
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+
+            return res.status(404).json({
+                success: false,
+            });
+
+        }
+
+        const isFavorite = user.favorites.some(
+            (id) => id.toString() === businessId
+        );
+
+        res.json({
+            success: true,
+            isFavorite,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
