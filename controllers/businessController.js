@@ -13,7 +13,6 @@ export const addBusiness = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error); // <-- ADD THIS
 
         res.status(500).json({
             success: false,
@@ -211,9 +210,6 @@ export const searchBusinesses = async (req, res) => {
 
 export const increaseViews = async (req, res) => {
 
-       console.log("View API Hit");
-    console.log(req.params.id);
-
     try {
 
         const business = await Business.findByIdAndUpdate(
@@ -279,7 +275,7 @@ export const getCities = async (req, res) => {
 };
 
 export const getFeaturedBusinesses = async (req, res) => {
- console.log("FEATURED ROUTE HIT");
+
     try {
 
         const businesses = await Business.find({
